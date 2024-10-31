@@ -49,7 +49,7 @@ def memory_querying_responding(query, key, value, mask=None, dropout=None, topk=
     return torch.matmul(p_attn.unsqueeze(3), selected_value).squeeze(3), p_attn
 
 def init_rnn_state(batchsize,num_hiddens): # 这里是对的，其实一池化就成[b，c] 这里的device怎么处理
-    # 返回两个数组，我们要确定这里的维度，根据网络计算来确定。需要[b，c]这样维度的数据
+    # 返回两个数组，我们要确定这里的维度，根据网络计算来确定。需要[b，c]维度的数据
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     return (torch.zeros((batchsize, num_hiddens), device=device), torch.zeros((batchsize, num_hiddens), device=device))
 
@@ -94,7 +94,7 @@ class Encoder(nn.Module):
             nn.Dropout(0.1)
         )
         self.fuse_layer_norm = nn.LayerNorm(layer.size)
-    def init_linear(self):  # 勿删，如果要加深编码器层数的话，这里要在写一点
+    def init_linear(self):  
             #       self.glayers0 = nn.Linear(self.d_model, self.d_model) 0层没必要
             self.glayers1 = nn.Linear(self.d_model + self.d_model, self.d_model)
 
@@ -109,7 +109,7 @@ class Encoder(nn.Module):
     #         x = layer(x, mask)
     #         goabl_n = x.mean(-2)  # 这是当前位置的池化，我们要把每一层的池化记住，现在就是要保存之前位置的池化，[b,1,c]
     #         goabl = torch.cat([goabl, goabl_n], dim=-1)
-    #         #             if index == 0: # 勿删，如果要加深编码器层数的话，这里要在写一点
+    #         #             if index == 0: 
     #         goabl = self.glayers1(goabl)
     #         #             elif index == 1:
     #         #                 goabl = self.glayers2(goabl)
@@ -128,7 +128,7 @@ class Encoder(nn.Module):
             x = layer(x, mask)
             goabl_n = x.mean(-2)  # 这是当前位置的池化，我们要把每一层的池化记住，现在就是要保存之前位置的池化，[b,1,c]
             goabl = torch.cat([goabl, goabl_n], dim=-1)
-            #             if index == 0: # 勿删，如果要加深编码器层数的话，这里要在写一点
+            #             if index == 0: 
             goabl = self.glayers1(goabl)
             #             elif index == 1:
             #                 goabl = self.glayers2(goabl)
@@ -270,7 +270,6 @@ class GRU(nn.Module):
     # 启发就是残差连接可以用不同的形式。idea
     def forward(self, x, h_1, c_1): # c_1是上一个时刻的记忆单元，那这个x就是每层encoder的输出
         # 这里的x是传进来的池化特征，维度为[b，1，c]
-        # 这里的x要怎么训练呢？不用for吗？应该不用，我们在外面用
         i = torch.sigmoid(self.ix_linear(x) + self.ih_linear(h_1))
         f = torch.sigmoid(self.fx_linear(x) + self.fh_linear(h_1))
         o = torch.sigmoid(self.ox_linear(x) + self.oh_linear(h_1))
