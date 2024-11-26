@@ -10,9 +10,15 @@
 
 ## Data
 
+### Gird features
+
 Download IU and MIMIC-CXR datasets, and place them in `data` folder.
 - IU dataset from [here](https://iuhealth.org/find-medical-services/x-rays)
 - MIMIC-CXR dataset from [here](https://physionet.org/content/mimic-cxr-jpg/2.0.0/)
+
+### Region features
+
+The region features is from [here]([https://iuhealth.org/find-medical-services/x-rays](https://github.com/MILVLG/bottom-up-attention.pytorch#Training)
 
 ## Training and Testing
 
