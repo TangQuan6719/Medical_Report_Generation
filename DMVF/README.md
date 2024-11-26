@@ -18,7 +18,7 @@ Download IU and MIMIC-CXR datasets, and place them in `data` folder.
 
 ### Region features
 
-The region features is from ([https://iuhealth.org/find-medical-services/x-rays])
+The region features is from [https://github.com/MILVLG/bottom-up-attention.pytorch#Training](https://github.com/MILVLG/bottom-up-attention.pytorch#Training)
 
 ## Training and Testing
 
