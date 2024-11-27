@@ -10,8 +10,6 @@
 
 ## Data
 
-### Gird features
-
 Download IU and MIMIC-CXR datasets, and place them in `data` folder.
 - IU dataset from [here](https://iuhealth.org/find-medical-services/x-rays)
 - MIMIC-CXR dataset from [here](https://physionet.org/content/mimic-cxr-jpg/2.0.0/)
